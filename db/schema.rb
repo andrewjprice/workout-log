@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_06_050551) do
+ActiveRecord::Schema.define(version: 2019_04_09_232956) do
+
+  create_table "exercise_sets", force: :cascade do |t|
+    t.string "name"
+    t.integer "workout_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["workout_id"], name: "index_exercise_sets_on_workout_id"
+  end
+
+  create_table "rep_sets", force: :cascade do |t|
+    t.float "weight"
+    t.integer "reps"
+    t.integer "exercise_set_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_set_id"], name: "index_rep_sets_on_exercise_set_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,4 +41,16 @@ ActiveRecord::Schema.define(version: 2019_04_06_050551) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workouts", force: :cascade do |t|
+    t.string "title"
+    t.datetime "date"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_workouts_on_user_id"
+  end
+
+  add_foreign_key "exercise_sets", "workouts"
+  add_foreign_key "rep_sets", "exercise_sets"
+  add_foreign_key "workouts", "users"
 end
