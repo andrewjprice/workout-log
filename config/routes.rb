@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   authenticated :user do
     root 'authenticated#index', as: :authenticated_root
+
+    resources :workouts
   end
 
   root 'pages#index'
