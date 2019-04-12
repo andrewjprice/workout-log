@@ -1,5 +1,4 @@
 class ExerciseSet < ApplicationRecord
-  belongs_to :session
-  has_one :exercise
-  has_many :rep_sets
+  belongs_to :workout
+  has_many :rep_sets, dependent: :destroy
 end

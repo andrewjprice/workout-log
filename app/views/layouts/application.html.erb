@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WorkoutLog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Workout Log" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Workout Log" %>">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
-  <div class="navbar">
-    <%= link_to 'Home', root_path %>
-    <% if user_signed_in? %>
-      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to 'Sign Up', new_user_registration_path %>
-      <%= link_to 'Login', user_session_path %>
-    <% end%>
-  </div>
-
   <body>
-    <%= render 'layouts/alert' %>
-    <%= yield %>
+    <header>
+      <%= render 'layouts/navigation' %>
+    </header>
+    <main role="main">
+       <%= render 'layouts/messages' %>
+       <%= yield %>
+    </main>
   </body>
 </html>

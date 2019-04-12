@@ -1,0 +1,30 @@
+<div id="workout-form">
+  <label>Workout Title </label>
+</div>
+<%
+=begin%>
+ <%= form_with(model: workout, local: true) do |form| %>
+  <% if workout.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(workout.errors.count, "error") %> prohibited this workout from being saved:</h2>
+
+      <ul>
+      <% workout.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %> 
+<%
+=end
+%>
