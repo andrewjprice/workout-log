@@ -19,6 +19,7 @@ class WorkoutsController < ApplicationController
 
   # GET /workouts/1/edit
   def edit
+    @workout = Workout.find(params[:id])
   end
 
   # POST /workouts
@@ -71,6 +72,6 @@ class WorkoutsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def workout_params
-      params.require(:workout).permit(:title)
+      params.require(:workout).permit(:title, exercise_sets_attributes: [:id, :name, rep_sets_attributes:[:weight, :reps]])
     end
 end

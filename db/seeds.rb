@@ -11,4 +11,3 @@ workout = Workout.create(title: "A", date: Date.today, user_id: user.id)
 exercise_set = ExerciseSet.create(name: "Bench Press", workout_id: workout.id)
 first_set = RepSet.create(weight: 150.0, reps: 10, exercise_set_id: exercise_set.id)
 second_set = RepSet.create(weight: 200.0, reps: 8, exercise_set_id: exercise_set.id)
-

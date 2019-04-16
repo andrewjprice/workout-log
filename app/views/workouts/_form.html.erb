@@ -1,30 +1,35 @@
-<div id="workout-form">
-  <label>Workout Title </label>
-</div>
-<%
-=begin%>
- <%= form_with(model: workout, local: true) do |form| %>
-  <% if workout.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(workout.errors.count, "error") %> prohibited this workout from being saved:</h2>
+<%= content_tag :div,
+  id: "workout-form",
+  data: {
+    workout: workout.to_json(except: [:created_at, :updated_at]),
+    exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets_attributes => {:except => [:exercise_set_id, :created_at, :updated_at]}])
+  } do %>
 
-      <ul>
-      <% workout.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <label>Workout Title</label>
+  <input type="text" v-model="workout.title" />
+
+  <h3>Exercises</h3>
+  <div v-for="(exercise, index) in workout.exercise_sets_attributes">
+    <label>Name</label>
+    <input type="text" v-model="exercise.name" />
+    <button v-on:click="remove(index)">Remove</button>
+
+    <h4>Sets</h4>
+    <div v-for="(set, index) in exercise.rep_sets_attributes">
+      <label>Weight</label>
+      <input type="number" v-model="set.weight" />
+      
+      <label>Reps</label>
+      <input type="number" v-model="set.reps" />
+
+      <button v-on:click="removeSet(exercise, index)">Remove</button>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <button v-on:click="addSet(exercise)">Add Set</button>
+
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %> 
-<%
-=end
-%>
+  <button v-on:click="add">Add Exercise</button>
+
+  <button v-on:click="save">Save</button>
+<% end %>
