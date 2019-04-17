@@ -4,10 +4,10 @@
   id: "workout-form",
   data: {
     workout: workout.to_json(except: [:created_at, :updated_at]),
-    exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets_attributes => {:except => [:exercise_set_id, :created_at, :updated_at]}])
+    exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets => {:except => [:exercise_set_id, :created_at, :updated_at]}])
   } do %>
 
-  <form novalidate class="md-layout">
+  <form novalidate class="md-layout m-5">
     <md-card class="md-layout-item md-size-50 md-small-size-100 m-auto">
       <md-card-header>
         <div class="md-title">Workout Log</div>
@@ -37,7 +37,7 @@
             <md-icon>add</md-icon>
           </md-button>
         </div>
-          <div class="d-flex justify-content-between position-relative" v-for="(set, index) in exercise.rep_sets_attributes">
+          <div class="d-flex justify-content-between position-relative" v-for="(set, index) in exercise.rep_sets">
             <div class="md-layout-item p-3">
               <md-field>
                 <label>Weight</label>
@@ -63,7 +63,7 @@
         </md-card>
         
         <div class="text-center">
-          <md-button class="md-raised md-default" v-on:click="save">Save</md-button>
+          <md-button class="md-raised md-primary" v-on:click="save">Save</md-button>
         </div>
       </md-card-content>
     </md-card>
