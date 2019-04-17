@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag 'https://unpkg.com/vue-material@beta/dist/theme/default.css' %>
+
 <%= content_tag :div,
   id: "workout-form",
   data: {
@@ -5,31 +7,65 @@
     exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets_attributes => {:except => [:exercise_set_id, :created_at, :updated_at]}])
   } do %>
 
-  <label>Workout Title</label>
-  <input type="text" v-model="workout.title" />
+  <form novalidate class="md-layout">
+    <md-card class="md-layout-item md-size-50 md-small-size-100 m-auto">
+      <md-card-header>
+        <div class="md-title">Workout Log</div>
+      </md-card-header>
 
-  <h3>Exercises</h3>
-  <div v-for="(exercise, index) in workout.exercise_sets_attributes">
-    <label>Name</label>
-    <input type="text" v-model="exercise.name" />
-    <button v-on:click="remove(index)">Remove</button>
+      <md-card-content>
+        <md-field>
+          <label>Title</label>
+          <md-input v-model="workout.title"></md-input>
+        </md-field>
 
-    <h4>Sets</h4>
-    <div v-for="(set, index) in exercise.rep_sets_attributes">
-      <label>Weight</label>
-      <input type="number" v-model="set.weight" />
-      
-      <label>Reps</label>
-      <input type="number" v-model="set.reps" />
+        <div class="d-flex justify-content-between position-relative">
+          <h2 class="m-auto-0">Exercises</h2>
+          <md-button class="md-fab md-primary" v-on:click="add">
+            <md-icon>add</md-icon>
+          </md-button>
+        </div>
+        <md-card class="md-layout-item md-size-100 md-small-size-100 p-3 m-5" v-for="(exercise, index) in workout.exercise_sets_attributes">
+          <md-field>
+            <label>Name</label>
+            <md-input v-model="exercise.name"></md-input>
+          </md-field>
 
-      <button v-on:click="removeSet(exercise, index)">Remove</button>
-    </div>
+        <div class="d-flex justify-content-between position-relative">
+          <h3 class="m-auto-0">Sets</h3>
+          <md-button class="md-fab md-mini md-primary" v-on:click="addSet(exercise)">
+            <md-icon>add</md-icon>
+          </md-button>
+        </div>
+          <div class="d-flex justify-content-between position-relative" v-for="(set, index) in exercise.rep_sets_attributes">
+            <div class="md-layout-item p-3">
+              <md-field>
+                <label>Weight</label>
+                <md-input type="number" v-model="set.weight" />
+              </md-field>
+            </div>
+            
+            <div class="md-layout-item p-3">
+              <md-field>
+                <label>Reps</label>
+                <md-input type="number" v-model="set.reps" />
+              </md-field>
+            </div>
 
-    <button v-on:click="addSet(exercise)">Add Set</button>
-
-  </div>
-
-  <button v-on:click="add">Add Exercise</button>
-
-  <button v-on:click="save">Save</button>
+            <div class="md-layout-item text-center m-auto">
+              <md-button class="md-fab md-mini md-alert" v-on:click="removeSet(exercise, index)">
+                <md-icon>remove</md-icon>
+              </md-button>
+            </div>
+          </div>
+          
+          <md-button class="md-raised md-accent" v-on:click="remove(index)">Remove</md-button>
+        </md-card>
+        
+        <div class="text-center">
+          <md-button class="md-raised md-default" v-on:click="save">Save</md-button>
+        </div>
+      </md-card-content>
+    </md-card>
+  </form>
 <% end %>

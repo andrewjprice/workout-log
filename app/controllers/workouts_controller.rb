@@ -20,6 +20,7 @@ class WorkoutsController < ApplicationController
   # GET /workouts/1/edit
   def edit
     @workout = Workout.find(params[:id])
+    "#{@workout.id}/edit.json"
   end
 
   # POST /workouts
