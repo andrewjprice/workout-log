@@ -73,12 +73,7 @@ document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById('workout-form')
 
   if (element != null) {
-    var workout = JSON.parse(element.dataset.workout)
-    var exercise_sets_attributes = JSON.parse(element.dataset.exerciseSetsAttributes)
-
-    exercise_sets_attributes.forEach(function(exercise) { exercise._destroy = null })
-
-    workout.exercise_sets_attributes = exercise_sets_attributes
+    var workout = gon.workout
 
     const app = new Vue({
       el: element,
@@ -88,16 +83,24 @@ document.addEventListener('turbolinks:load', () => {
         }
       },
       methods: {
-        add: function() {
+        addExercise: function() {
           workout.exercise_sets_attributes.push({
             id: null,
             name: "",
             _destroy: null,
-            rep_sets_attributes: []
+            rep_sets_attributes: [{}]
+          })
+        },
+        addSet: function(exercise) {
+          exercise.rep_sets_attributes.push({
+            id: null,
+            weight: 0.0,
+            reps: 0,
+            _destroy: null
           })
         },
         save: function(event) {
-          if (workout.id == null) {
+          if (gon.id == null) {
             this.$http.post('/workouts', {workout: workout})
             .then(response => {
               Turbolinks.visit('/workouts')
@@ -107,7 +110,7 @@ document.addEventListener('turbolinks:load', () => {
               return
             })
           } else {
-            this.$http.patch('/workouts/' + workout.id, {workout: workout})
+            this.$http.patch('/workouts/' + gon.id, {workout: workout})
             .then(response => {
               Turbolinks.visit('/workouts')
               return
@@ -117,15 +120,8 @@ document.addEventListener('turbolinks:load', () => {
             })
           }
         },
-        remove: function(index) {
+        removeExercise: function(index) {
           this.workout.exercise_sets_attributes.splice(index, 1)
-        },
-        addSet: function(exercise) {
-          exercise.rep_sets_attributes.push({
-            id: null,
-            weight: 0.0,
-            reps: 0
-          })
         },
         removeSet: function(exercise, index) {
           exercise.rep_sets_attributes.splice(index, 1)

@@ -4,7 +4,7 @@
   id: "workout-form",
   data: {
     workout: workout.to_json(except: [:created_at, :updated_at]),
-    exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets => {:except => [:exercise_set_id, :created_at, :updated_at]}])
+    exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets => {:except => [:created_at, :updated_at]}])
   } do %>
 
   <form novalidate class="md-layout m-5">
@@ -21,11 +21,11 @@
 
         <div class="d-flex justify-content-between position-relative">
           <h2 class="m-auto-0">Exercises</h2>
-          <md-button class="md-fab md-primary" v-on:click="add">
+          <md-button class="md-fab md-primary" v-on:click="addExercise">
             <md-icon>add</md-icon>
           </md-button>
         </div>
-        <md-card class="md-layout-item md-size-100 md-small-size-100 p-3 m-5" v-for="(exercise, index) in workout.exercise_sets_attributes">
+        <md-card class="md-layout-item md-size-100 md-small-size-100 p-3 m-5" v-for="(exercise, index) in workout.exercise_sets_attributes" :key="exercise.id">
           <md-field>
             <label>Name</label>
             <md-input v-model="exercise.name"></md-input>
@@ -37,18 +37,18 @@
             <md-icon>add</md-icon>
           </md-button>
         </div>
-          <div class="d-flex justify-content-between position-relative" v-for="(set, index) in exercise.rep_sets">
+          <div class="d-flex justify-content-between position-relative" v-for="(rep_set, index) in exercise.rep_sets_attributes" :key="rep_set.id">
             <div class="md-layout-item p-3">
               <md-field>
                 <label>Weight</label>
-                <md-input type="number" v-model="set.weight" />
+                <md-input type="number" v-model="rep_set.weight" />
               </md-field>
             </div>
             
             <div class="md-layout-item p-3">
               <md-field>
                 <label>Reps</label>
-                <md-input type="number" v-model="set.reps" />
+                <md-input type="number" v-model="rep_set.reps" />
               </md-field>
             </div>
 
@@ -59,7 +59,7 @@
             </div>
           </div>
           
-          <md-button class="md-raised md-accent" v-on:click="remove(index)">Remove</md-button>
+          <md-button class="md-raised md-accent" v-on:click="removeExercise(index)">Remove</md-button>
         </md-card>
         
         <div class="text-center">

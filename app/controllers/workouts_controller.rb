@@ -15,11 +15,13 @@ class WorkoutsController < ApplicationController
   # GET /workouts/new
   def new
     @workout = Workout.new
+    gon.jbuilder
   end
 
   # GET /workouts/1/edit
   def edit
     @workout = Workout.find(params[:id])
+    gon.jbuilder
   end
 
   # POST /workouts
@@ -72,6 +74,6 @@ class WorkoutsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def workout_params
-      params.require(:workout).permit(:title, exercise_sets_attributes: [:id, :name, rep_sets_attributes:[:weight, :reps]])
+      params.require(:workout).permit(:id, :user_id, :title, :date, exercise_sets_attributes: [:id, :name, :_destroy, rep_sets_attributes:[:id, :weight, :reps, :_destroy]])
     end
 end
