@@ -2,15 +2,40 @@
 <%= content_tag :div,
   id: "workouts_index",
   data: {
-    workouts: @workouts.to_json(except: [:created_at, :updated_at])
+    workouts: @workouts.to_json(except: [:created_at, :updated_at]),
+    recent_workouts: @recent_workouts.to_json(except: [:created_at, :updated_at], include: :exercise_sets)
   } do %>
   <template>
-    <md-button class="md-raised md-primary mb-3" v-bind:href="'/workouts/new/'">New Workout</md-button>
+    <div class="d-flex justify-content-end">
+      <md-button class="md-raised md-primary" v-bind:href="'/workouts/new/'">New Workout</md-button>
+    </div>
     <br>
-    <div>
+    <h1 class="d-flex justify-content-center">Recent Workouts</h1>
+    <div class="d-flex justify-content-center position-relative mb-5">
+      <md-card md-with-hover v-for="(workout, index) in recent_workouts" :key="index" class="m-5">
+        <md-ripple>
+          <md-card-header>
+            <div class="md-title">{{workout.title}}</div>
+            <div class="md-subhead">{{workout.date | formatDate}}</div>
+          </md-card-header>
+
+          <md-card-content class="workout-card-content">
+            <ul class="pl-3">
+              <li v-for="(exercise, index) in workout.exercise_sets.slice(0, 4)">{{ exercise.name }}</li>
+            </ul>
+          </md-card-content>
+
+          <md-card-actions>
+            <md-button :href="`/workouts/${workout.id}/edit`">Edit</md-button>
+            <md-button v-on:click="deleteWorkout(workout)">Delete</md-button>
+          </md-card-actions>
+        </md-ripple>
+      </md-card>
+    </div>
+    <div class="m-5">
       <md-table md-card>
         <md-table-toolbar>
-          <h1 class="md-title">Workouts</h1>
+          <h1 class="md-title">History</h1>
         </md-table-toolbar>
 
         <md-table-row>
@@ -23,7 +48,7 @@
         <md-table-row v-for="(workout, index) in workouts" :key="index">
           <md-table-cell>{{workout.id}}</md-table-cell>
           <md-table-cell :href="`/workouts/${workout.id}`">{{workout.title}}</md-table-cell>
-          <md-table-cell>{{workout.date}}</md-table-cell>
+          <md-table-cell>{{workout.date | formatDate}}</md-table-cell>
           <md-table-cell>
             <md-button class="md-fab md-mini md-primary" :href="`/workouts/${workout.id}/edit`"><md-icon>edit</md-icon></md-button>
             <md-button class="md-fab md-mini md-alert" v-on:click="deleteWorkout(workout)"><md-icon>remove</md-icon></md-button>

@@ -2,11 +2,8 @@
 
 <%= content_tag :div,
   id: "workout-form",
-  data: {
-    workout: workout.to_json(except: [:created_at, :updated_at]),
-    exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets => {:except => [:created_at, :updated_at]}])
+  data: {workout: workout.to_json(except: [:created_at, :updated_at])
   } do %>
-
   <form novalidate class="md-layout">
     <md-card class="md-layout-item md-size-50 md-small-size-100 m-auto">
       <md-card-header>
@@ -18,6 +15,10 @@
           <label>Title</label>
           <md-input v-model="workout.title"></md-input>
         </md-field>
+
+        <md-datepicker md-immediately="true" v-model="workout.date">
+          <label>Select date</label>
+        </md-datepicker>
 
         <div class="d-flex justify-content-between position-relative">
           <h2 class="m-auto-0">Exercises</h2>

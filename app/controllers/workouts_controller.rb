@@ -4,7 +4,8 @@ class WorkoutsController < ApplicationController
   # GET /workouts
   # GET /workouts.json
   def index
-    @workouts = Workout.all.where(user_id: current_user.id)
+    @workouts = Workout.all.where(user_id: current_user.id).order('date asc')
+    @recent_workouts = @workouts.limit(3).order('date desc')
   end
 
   # GET /workouts/1

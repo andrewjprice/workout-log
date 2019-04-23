@@ -6,10 +6,16 @@ import 'vue-material/dist/vue-material.min.css'
 import 'jquery/src/jquery'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
+import moment from 'moment';
 
 Vue.use(VueMaterial)
 Vue.use(VueResource)
 Vue.use(TurbolinksAdapter)
+Vue.filter('formatDate', function(value) {
+    if (value) {
+      return moment(String(value)).format('MM/DD/YYYY')
+    }
+})
 
 document.addEventListener('turbolinks:load', () => {
   Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -19,11 +25,14 @@ document.addEventListener('turbolinks:load', () => {
   if (element != null) {
     var workouts = JSON.parse(element.dataset.workouts)
 
+    var recent_workouts = JSON.parse(element.dataset.recentWorkouts)
+
     const app = new Vue({
       el: element,
       data: () => {
         return {
-          workouts: workouts
+          workouts: workouts,
+          recent_workouts
         }
       },
       methods: {
