@@ -4,7 +4,7 @@
   id: "workout-form",
   data: {workout: workout.to_json(except: [:created_at, :updated_at])
   } do %>
-  <form novalidate class="md-layout">
+  <form novalidate class="md-layout m-5">
     <md-card class="md-layout-item md-size-50 md-small-size-100 m-auto">
       <md-card-header>
         <div class="md-title">Workout Log</div>
@@ -16,7 +16,7 @@
           <md-input v-model="workout.title"></md-input>
         </md-field>
 
-        <md-datepicker md-immediately="true" v-model="workout.date">
+        <md-datepicker md-immediately v-model="workout.date">
           <label>Select date</label>
         </md-datepicker>
 

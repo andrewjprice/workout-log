@@ -30,7 +30,6 @@ class WorkoutsController < ApplicationController
   def create
     @workout = Workout.new(workout_params)
     @workout.user_id = current_user.id if current_user
-    @workout.date = Date.today
 
     respond_to do |format|
       if @workout.save
