@@ -7,7 +7,7 @@
     exercise_sets_attributes: workout.exercise_sets.to_json(:except => [:workout_id, :created_at, :updated_at], :include => [:rep_sets => {:except => [:created_at, :updated_at]}])
   } do %>
 
-  <form novalidate class="md-layout m-5">
+  <form novalidate class="md-layout">
     <md-card class="md-layout-item md-size-50 md-small-size-100 m-auto">
       <md-card-header>
         <div class="md-title">Workout Log</div>

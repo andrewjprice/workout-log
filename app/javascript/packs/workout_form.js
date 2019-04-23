@@ -60,8 +60,6 @@ import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'jquery/src/jquery'
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap';
 
 Vue.use(VueMaterial)
 Vue.use(VueResource)

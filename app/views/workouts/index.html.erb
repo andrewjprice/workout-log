@@ -1,8 +1,42 @@
-<p id="notice"><%= notice %></p>
+<%= stylesheet_link_tag 'https://unpkg.com/vue-material@beta/dist/theme/default.css' %>
+<%= content_tag :div,
+  id: "workouts_index",
+  data: {
+    workouts: @workouts.to_json(except: [:created_at, :updated_at])
+  } do %>
+  <template>
+    <md-button class="md-raised md-primary mb-3" v-bind:href="'/workouts/new/'">New Workout</md-button>
+    <br>
+    <div>
+      <md-table md-card>
+        <md-table-toolbar>
+          <h1 class="md-title">Workouts</h1>
+        </md-table-toolbar>
 
-<h1>Workouts</h1>
+        <md-table-row>
+          <md-table-head>ID</md-table-head>
+          <md-table-head>Title</md-table-head>
+          <md-table-head>Date</md-table-head>
+          <md-table-head>Options</md-table-head>
+        </md-table-row>
 
-<table>
+        <md-table-row v-for="(workout, index) in workouts" :key="index">
+          <md-table-cell>{{workout.id}}</md-table-cell>
+          <md-table-cell :href="`/workouts/${workout.id}`">{{workout.title}}</md-table-cell>
+          <md-table-cell>{{workout.date}}</md-table-cell>
+          <md-table-cell>
+            <md-button class="md-fab md-mini md-primary" :href="`/workouts/${workout.id}/edit`"><md-icon>edit</md-icon></md-button>
+            <md-button class="md-fab md-mini md-alert" v-on:click="deleteWorkout(workout)"><md-icon>remove</md-icon></md-button>
+          </md-table-cell>
+        </md-table-row>
+      </md-table>
+    </div>
+  </template>
+<% end %>
+
+<%
+=begin%>
+ <table>
   <thead>
     <tr>
       <th>Title</th>
@@ -20,8 +54,10 @@
       </tr>
     <% end %>
   </tbody>
-</table>
-
+</table> 
 <br>
-
-<%= link_to 'New Workout', new_workout_path %>
+<md-button class="md-raised md-primary" v-on:click="new">New Workout</md-button>
+<%= link_to 'New Workout', new_workout_path, class: 'btn btn-success'%>
+<%
+=end
+%>
