@@ -1,6 +1,3 @@
-<h1>Edit</h1>
+<%= render 'navigation', locals: { title: "Edit" }%>
 
 <%= render 'form', workout: @workout %>
-
-<%= link_to 'Show', @workout %> |
-<%= link_to 'Back', workouts_path %>

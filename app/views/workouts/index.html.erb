@@ -40,18 +40,18 @@
 
         <md-table-row>
           <md-table-head>ID</md-table-head>
-          <md-table-head>Title</md-table-head>
-          <md-table-head>Date</md-table-head>
-          <md-table-head>Options</md-table-head>
+          <md-table-head class="text-center">Title</md-table-head>
+          <md-table-head class="text-center">Date</md-table-head>
+          <md-table-head class="text-center">Actions</md-table-head>
         </md-table-row>
 
         <md-table-row v-for="(workout, index) in workouts" :key="index">
           <md-table-cell>{{workout.id}}</md-table-cell>
-          <md-table-cell :href="`/workouts/${workout.id}`">{{workout.title}}</md-table-cell>
-          <md-table-cell>{{workout.date | formatDate}}</md-table-cell>
-          <md-table-cell>
-            <md-button class="md-fab md-mini md-primary" :href="`/workouts/${workout.id}/edit`"><md-icon>edit</md-icon></md-button>
-            <md-button class="md-fab md-mini md-alert" v-on:click="deleteWorkout(workout)"><md-icon>remove</md-icon></md-button>
+          <md-table-cell class="text-center" :href="`/workouts/${workout.id}`">{{workout.title}}</md-table-cell>
+          <md-table-cell class="text-center">{{workout.date | formatDate}}</md-table-cell>
+          <md-table-cell class="text-center">
+            <md-button class="md-fab md-mini md-primary mx-0" :href="`/workouts/${workout.id}/edit`"><md-icon>edit</md-icon></md-button>
+            <md-button class="md-fab md-mini md-alert mx-0" v-on:click="deleteWorkout(workout)"><md-icon>remove</md-icon></md-button>
           </md-table-cell>
         </md-table-row>
       </md-table>
