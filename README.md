@@ -2,6 +2,15 @@
 
 Simple app to log workouts
 
+# README
+## Setup
+```
+bundle install
+yarn install
+bin/rails s
+```
+
+# Screenshot
 ## Home
 ![home](https://github.com/andrewjprice/workout-log/blob/master/app/assets/images/home.png)
 
